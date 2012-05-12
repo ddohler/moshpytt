@@ -1,6 +1,12 @@
 These modifications to moshPyTT made by Derek Dohler <dohler at gmail dott com>.
 The original README file, written by John Beard, is below.
 
+Changes from the original:
+--Space, Return, and Enter now jump to the next box in the file
+--Backspace now jumps to the previous box in the file
+--Typing any character key immediately replaces the text of the current box
+  with the corresponding character and then automatically jumps to the next box.
+--Laptop arrow keys now work the same as number pad arrow keys.
 ==============================================================================
 moshPyTT
 ==============================================================================
