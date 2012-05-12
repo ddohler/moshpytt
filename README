@@ -1,5 +1,6 @@
-These modifications to moshPyTT made by Derek Dohler <dohler at gmail dott com>.
-The original README file, written by John Beard, is below.
+These modifications to moshPyTT were made by Derek Dohler 
+<dohler at gmail dott com>. The original README file, written by John Beard, 
+is below.
 
 Changes from the original:
 --Space, Return, and Enter now jump to the next box in the file
