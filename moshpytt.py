@@ -108,6 +108,11 @@ class TesseractBox:
 
         return string
 
+    def set_text(self, string):
+        if type(string) is str or type(string) is unicode:
+            self.text = string
+        else:
+            print "Box text must be a string. Received " + str(type(string))
 
     def check_numbers(self):
         """Checks the box edges to ensure that the "left" edge is really to the
@@ -408,35 +413,37 @@ class MoshPyTT:
         alt = event.state & gtk.gdk.MOD1_MASK
 
         command = None
-        if event.keyval in [gtk.keysyms.KP_Left, gtk.keysyms.KP_4, gtk.keysyms._4]: #Left arrow
-            command = 'LEFT'
+        if control or shift or alt:
+            print event.keyval
+            if event.keyval in [gtk.keysyms.KP_Left, gtk.keysyms.KP_4, gtk.keysyms._4, gtk.keysyms.Left]: #Left arrow
+                command = 'LEFT'
 
-        elif event.keyval in [gtk.keysyms.KP_Up, gtk.keysyms.KP_8, gtk.keysyms._8]:  # Up arrow
-            command = 'TOP'
+            elif event.keyval in [gtk.keysyms.KP_Up, gtk.keysyms.KP_8, gtk.keysyms._8, gtk.keysyms.Up]:  # Up arrow
+                command = 'TOP'
 
-        elif event.keyval in [gtk.keysyms.KP_Right, gtk.keysyms.KP_6, gtk.keysyms._6]:  # Right arrow
-            command = 'RIGHT'
+            elif event.keyval in [gtk.keysyms.KP_Right, gtk.keysyms.KP_6, gtk.keysyms._6, gtk.keysyms.Right]:  # Right arrow
+                command = 'RIGHT'
 
-        elif event.keyval in [gtk.keysyms.KP_Down, gtk.keysyms.KP_2, gtk.keysyms._2]:  # Down arrow
-            command = 'BOTTOM'
+            elif event.keyval in [gtk.keysyms.KP_Down, gtk.keysyms.KP_2, gtk.keysyms._2, gtk.keysyms.Down]:  # Down arrow
+                command = 'BOTTOM'
 
-        elif event.keyval in [gtk.keysyms.KP_Begin, gtk.keysyms.KP_5, gtk.keysyms._5]:  # Centre
-            command = 'ALL'
+            elif event.keyval in [gtk.keysyms.KP_Begin, gtk.keysyms.KP_5, gtk.keysyms._5]:  # Centre
+                command = 'ALL'
 
-        elif event.keyval in [gtk.keysyms.KP_Insert, gtk.keysyms.KP_0, gtk.keysyms._0]:  # Delete the boxes
-            command = 'DELETE'
+            elif event.keyval in [gtk.keysyms.KP_Insert, gtk.keysyms.KP_0, gtk.keysyms._0]:  # Delete the boxes
+                command = 'DELETE'
 
-        elif event.keyval in [gtk.keysyms.KP_End, gtk.keysyms.KP_1, gtk.keysyms._1]:  # Merge the boxes
-            command = 'MERGE'
+            elif event.keyval in [gtk.keysyms.KP_End, gtk.keysyms.KP_1, gtk.keysyms._1]:  # Merge the boxes
+                command = 'MERGE'
 
-        elif event.keyval in [gtk.keysyms.KP_Page_Down, gtk.keysyms.KP_3, gtk.keysyms._3]:  # Split the boxes
-            command = 'SPLIT'
+            elif event.keyval in [gtk.keysyms.KP_Page_Down, gtk.keysyms.KP_3, gtk.keysyms._3]:  # Split the boxes
+                command = 'SPLIT'
 
         elif event.keyval in [gtk.keysyms.space, gtk.keysyms.Return, gtk.keysyms.KP_Enter]: # Move to next box
             command = 'NEXT'
 
         elif event.keyval <= 0xFD00: # Update box with character and move to next box
-            pass
+            command = 'CHANGECHAR'
 
         if command in ['LEFT', 'RIGHT', 'TOP', 'BOTTOM', 'ALL']:
             if control and not shift and not alt:
@@ -468,6 +475,11 @@ class MoshPyTT:
             self.next_box()
             return True
 
+        elif command in ['CHANGECHAR']:
+            self.change_char_in_boxes(event.keyval)
+            self.next_box()
+            return True
+
         return False
 
 
@@ -494,6 +506,17 @@ class MoshPyTT:
         self.newBoxList = self.boxList
         self.update_boxes()
 
+    def change_char_in_boxes(self, keyval):
+        """Changes the character in the selected boxes"""
+        pt = gtk.gdk.keyval_to_unicode(keyval) #Returns Unicode code point, or zero if none found
+
+        if pt != 0: # No suitable unicode found, don't change
+            char = unichr(pt)
+            for box in self.boxList:
+                box.set_text(char)
+
+            self.newBoxList = self.boxList
+            self.update_boxes()
 
     def get_current_box(self):
         """If there is a selection, updates the lines which are selected.
@@ -527,8 +550,6 @@ class MoshPyTT:
         """Reads the currently selected text into memory, ready for display"""
 
         strings = self.textBuffer.get_text(self.topIter, self.btmIter).split('\n')
-        print self.topIter.get_line()
-        print self.btmIter.get_line()
         self.boxList = []
 
         for i in range(len(strings)):
