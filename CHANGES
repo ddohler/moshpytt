@@ -1,0 +1,29 @@
+Changes to moshPyTT
+
+===Version 0.1 (initial release)===
+
+* Complete set of box editing features: move, stretch, shrink, merge, split, delete
+* Italic, bold and underline handling
+* Keyboard shortcuts for all editing tools
+* Unlimited undo/redo stack
+
+
+===Version 0.2===
+
+* (Bugfix) Fix segfault caused by scrolling past image boundaries
+* Add -i parameter to allow image loading from the command line
+* Add autosave after 'n' changes
+* Capital letters are now coloured differently to help distinguish mistakes
+* Add find next/previous functionality
+
+
+
+===bugs===
+
+on adding lines at the bottom:
+
+moshpytt.py:283: GtkWarning: /build/buildd/gtk+2.0-2.22.0/gtk/gtktextview.c:4609: somehow some text lines were modified or scrolling occurred since the last validation of lines on the screen - may be a text widget bug.
+  vAdj.value  = value - vAdj.page_size
+**
+Gtk:ERROR:/build/buildd/gtk+2.0-2.22.0/gtk/gtktextview.c:4610:gtk_text_view_paint: code should not be reached
+Aborted
