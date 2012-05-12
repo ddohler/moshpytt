@@ -442,6 +442,9 @@ class MoshPyTT:
         elif event.keyval in [gtk.keysyms.space, gtk.keysyms.Return, gtk.keysyms.KP_Enter]: # Move to next box
             command = 'NEXT'
 
+        elif event.keyval in [gtk.keysyms.BackSpace]: # Move to previous box
+            command = 'PREVIOUS'
+
         elif event.keyval <= 0xFD00: # Update box with character and move to next box
             command = 'CHANGECHAR'
 
@@ -473,6 +476,10 @@ class MoshPyTT:
         
         elif command in ['NEXT']:
             self.next_box()
+            return True
+
+        elif command in ['PREVIOUS']:
+            self.previous_box()
             return True
 
         elif command in ['CHANGECHAR']:
@@ -581,7 +588,25 @@ class MoshPyTT:
 
         # jump to next line after cursor
         self.btmIter.forward_line() 
+        # Haven't hit the end
         if self.topIter.forward_line():
+            self.textBuffer.place_cursor(self.topIter)
+
+        self.get_current_box() # Redraw
+
+    def previous_box(self):
+        """Moves to the previous box, or the one before the first selected line."""
+
+        bounds = self.textBuffer.get_selection_bounds()
+
+        # jump to line before selection
+        if bounds:
+            self.btmIter = bounds[0]
+
+        # jump to line before cursor
+        self.btmIter.backward_line()
+        # Haven't hit the end
+        if self.topIter.backward_line():
             self.textBuffer.place_cursor(self.topIter)
 
         self.get_current_box() # Redraw
