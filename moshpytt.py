@@ -432,6 +432,12 @@ class MoshPyTT:
         elif event.keyval in [gtk.keysyms.KP_Page_Down, gtk.keysyms.KP_3, gtk.keysyms._3]:  # Split the boxes
             command = 'SPLIT'
 
+        elif event.keyval in [gtk.keysyms.space, gtk.keysyms.Return, gtk.keysyms.KP_Enter]: # Move to next box
+            command = 'NEXT'
+
+        elif event.keyval <= 0xFD00: # Update box with character and move to next box
+            pass
+
         if command in ['LEFT', 'RIGHT', 'TOP', 'BOTTOM', 'ALL']:
             if control and not shift and not alt:
                 self.stretch_boxes(command, False)
@@ -457,6 +463,10 @@ class MoshPyTT:
             if control and not shift and not alt:
                 self.split_boxes()
                 return True
+        
+        elif command in ['NEXT']:
+            self.next_box()
+            return True
 
         return False
 
@@ -517,7 +527,8 @@ class MoshPyTT:
         """Reads the currently selected text into memory, ready for display"""
 
         strings = self.textBuffer.get_text(self.topIter, self.btmIter).split('\n')
-
+        print self.topIter.get_line()
+        print self.btmIter.get_line()
         self.boxList = []
 
         for i in range(len(strings)):
@@ -537,6 +548,22 @@ class MoshPyTT:
         self.userScrolled = False # regain control of the image scrolling
         self.redraw_drawing_area()
 
+    def next_box(self):
+        """Moves to the next box in the boxfile (by moving the TextBuffer down one line).
+           If multiple lines are selected, moves to the line after the last selected line."""
+
+        bounds = self.textBuffer.get_selection_bounds()
+
+        # jump to next line after selection
+        if bounds:
+            self.topIter = bounds[1]
+
+        # jump to next line after cursor
+        self.btmIter.forward_line() 
+        if self.topIter.forward_line():
+            self.textBuffer.place_cursor(self.topIter)
+
+        self.get_current_box() # Redraw
 
     def set_checkbox_values(self, box):
         """Set the checkbox values based on a box"""
