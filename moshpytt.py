@@ -112,7 +112,7 @@ class TesseractBox:
         if type(string) is str or type(string) is unicode:
             self.text = string
         else:
-            print "Box text must be a string. Received " + str(type(string))
+            raise TypeError("Box text must be a string. Received " + str(type(string)))
 
     def check_numbers(self):
         """Checks the box edges to ensure that the "left" edge is really to the
