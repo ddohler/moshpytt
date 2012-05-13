@@ -8,6 +8,7 @@ Changes from the original:
 --Typing any character key immediately replaces the text of the current box
   with the corresponding character and then automatically jumps to the next box.
 --Laptop arrow keys now work the same as number pad arrow keys.
+--Added utility program mergeboxes.py that automatically merges nearby boxes. This may sometimes be helpful in correcting Tesseract's oversegmentation of characters.
 ==============================================================================
 moshPyTT
 ==============================================================================
