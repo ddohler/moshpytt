@@ -211,7 +211,15 @@ class TesseractBox:
                     break
 
             self.text = self.text[attributeCounter:]
+        
+    def __repr__(self):
+        return "TesseractBox: "+self.make_string()
 
+    def __str__(self):
+        return self.make_string()
+
+    def __unicode__(self):
+        return self.make_string()
 
 class UndoRedoStack:
 
