@@ -1,5 +1,10 @@
+** THIS PACKAGE IS NO LONGER MAINTAINED **
+(and you probably should be using
+[tesstrain.sh](https://github.com/tesseract-ocr/tesseract/blob/master/training/tesstrain.sh)
+anyway)
 These modifications to moshPyTT were made by Derek Dohler 
-<dohler at gmail dott com>. The original README file, written by John Beard, 
+
+The original README file, written by John Beard, 
 is below.
 
 Changes from the original:
