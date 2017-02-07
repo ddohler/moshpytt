@@ -8,12 +8,14 @@ The original README file, written by John Beard,
 is below.
 
 Changes from the original:
---Space, Return, and Enter now jump to the next box in the file
---Backspace now jumps to the previous box in the file
---Typing any character key immediately replaces the text of the current box
+
+- Space, Return, and Enter now jump to the next box in the file
+- Backspace now jumps to the previous box in the file
+- Typing any character key immediately replaces the text of the current box
   with the corresponding character and then automatically jumps to the next box.
---Laptop arrow keys now work the same as number pad arrow keys.
---Added utility program mergeboxes.py that automatically merges nearby boxes. This may sometimes be helpful in correcting Tesseract's oversegmentation of characters.
+- Laptop arrow keys now work the same as number pad arrow keys.
+- Added utility program mergeboxes.py that automatically merges nearby boxes. This may sometimes be helpful in correcting Tesseract's oversegmentation of characters.
+
 ==============================================================================
 moshPyTT
 ==============================================================================
