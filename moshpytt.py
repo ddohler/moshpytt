@@ -142,8 +142,8 @@ class TesseractBox:
             self.top += step
             self.bottom += step
         elif direction == 'BOTTOM':
-            self.top += step
-            self.bottom += step
+            self.top -= step
+            self.bottom -= step
 
 
     def stretch(self, direction, step=1):
